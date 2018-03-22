@@ -8,7 +8,8 @@ $(document).ready(function() {
     var sec1 = $('#sec1-sql');
     var sec2 = $('#sec2-sql');
     var sec3 = $('#sec3-sql');
-
+    var sec5 = $('#sec5-sql');
+    var sec6 = $('#sec6-sql');
 
     var close = $('#close-sql');
     close.on('click', function() {
@@ -31,25 +32,45 @@ $(document).ready(function() {
     });
 
     var sec4 = $('#sec4-sql');
+    var sec5 = $('#sec5-sql');
+    var sec6 = $('#sec6-sql');
     sec4.hide();
-
+    sec5.hide();
+    sec6.hide();
     $('#code').on('click', function () {
         $('#report').removeClass('active');
+        $('#chart').removeClass('active');
         sec1.show();
         sec2.show();
         sec3.show();
         sec4.hide();
+        sec5.hide();
+        sec6.hide();
         $('#code').addClass('active');
     });
 
     $('#report').on('click', function () {
         $('#code').removeClass('active');
+        $('#chart').removeClass('active');
         sec1.show();
         sec2.hide();
         sec3.hide();
         sec4.show();
-        console.log(list);
+        sec5.hide();
+        sec6.hide();
         $('#report').addClass('active');
+    });
+
+    $('#chart').on('click', function () {
+        $('#code').removeClass('active');
+        $('#report').removeClass('active');
+        sec1.show();
+        sec2.hide();
+        sec3.hide();
+        sec4.hide();
+        sec5.show();
+        sec6.show();
+        $('#chart').addClass('active');
     })
 
 });

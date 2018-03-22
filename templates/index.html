@@ -9,8 +9,8 @@
             <div id="sec1-sql" class="col-md-2 col-sm-2">
                 <div class="aside">
                     <ul class="list-group">
-                        <a id="code" href="#sec1-sql" class="list-group-item active">Coding Area </a>
-                        <a id="chart" href="" class="list-group-item">Charting Area</a>
+                        <a id="code" href="#" class="list-group-item active">Coding Area </a>
+                        <a id="chart" href="#" class="list-group-item">Charting Area</a>
                         <a id="report" href="#sec4-sql" class="list-group-item">Reporting Area</a>
                     </ul>
                 </div>
@@ -40,7 +40,7 @@
                                         <i class="fa fa-save" title="Save to Reporting area"></i>
                                     </button>
                             </div>{% load static %}
-                            <div id="plots{{forloop.counter}}" style="height:25em;width:43em;position:center">
+                            <div class="plot" id="plots{{forloop.counter}}" >
                             </div>
                         </div><hr><br>
                       {% endfor %}
@@ -58,7 +58,7 @@
                                         <i class="fa fa-close" title="Save to Reporting area"></i>
                                     </button>
                             </div>{% load static %}
-                            <div id="plotscopy{{forloop.counter}}" style="height:25em;width:43em;position:center">
+                            <div class="plots" id="plotscopy{{forloop.counter}}">
                             </div>
                             <hr><br>
                         </div>
@@ -66,6 +66,22 @@
                     </div>
                 </div>
             </div>
+            <div id="sec5-sql" class="col-md-3 col-sm-3">
+              <div class="container" id="all_plots">
+                <form class="plotform" action="index.html" method="post">
+                  {% for result in results %}
+                  <div class="checkbox"  style="margin-bottom:10px">
+                    <label><input type="checkbox" class="plot-checkbox" id="{{result.0}}"  value="{{result.0}}">{{result.0}}</label>
+                  </div>
+                  {% endfor%}
+                </form>
+              </div>
+            </div>
+            <div id="sec6-sql" class="col-md-7 col-sm-7">
+              <div id="multiple_plots">
+              </div>
+            </div>
+
 
 
 
@@ -97,7 +113,42 @@
     <script src="{% static '../static/script.js' %}"></script>
 
     <script>
+
       $(document).ready(function(){
+        var chart_area_plots = [];
+          $('.plot-checkbox').click(function(){
+            if($(this).prop('checked')){
+              var id = $(this).attr('id');
+              {% for result in results %}
+                var title{{forloop.counter}} = "{{result.0}}";
+                if(id == title{{forloop.counter}}){
+                  var trace = {
+                            x: {{ result.1 |safe }},
+                            y: {{ result.2 |safe}},
+                            type: 'scatter',
+                            name: id
+                          };
+                  chart_area_plots.push(trace);
+                }
+              {% endfor %}
+              Plotly.newPlot('multiple_plots', chart_area_plots);
+            }
+            else{
+              var id = $(this).attr('id');
+
+              for (var i=0;i<chart_area_plots.length;i++){
+                if(chart_area_plots[i]['name'] == id)
+                {
+                  chart_area_plots.splice( i, 1 );
+                  console.log(i);
+                  break;
+                }
+              }
+
+              Plotly.newPlot('multiple_plots', chart_area_plots);
+            }
+          });
+
           var list = [];
           {% if results %}
           {% for result in results %}
@@ -133,6 +184,8 @@
             {% endfor %}
             {% endif %}
           });
+
+
         </script>
 
 {% endblock %}

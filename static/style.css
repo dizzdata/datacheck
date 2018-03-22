@@ -5,7 +5,7 @@ header {
 
 body {
     background: rgb(233, 233, 233);
-    width: 100%;    
+    width: 100%;
 }
 
 #sec1 {
@@ -20,7 +20,7 @@ body {
 
 #sec1, #sec2, #sec3 {
     position: relative;
-} 
+}
 
 .btn {
     margin: auto !important;
@@ -31,12 +31,33 @@ body {
     height: 200px;
 }
 
+#sec5-sql {
+    width: 100%;
+    height: 750px;
+    margin: 40px 0px;
+    background: white;
+    margin-bottom: 40px;
+    border-right: 8px solid rgb(114, 114, 114);
+}
+#sec6-sql {
+    width: 100%;
+    height: 750px;
+    margin: 40px 0px;
+    background: white;
+}
+
+
+
 @media screen and (min-width: 800px) {
     #sec1 {
         height: 100px;
     }
 }
-
+.plot{
+  height:25em;
+  width:43em;
+  position:center;
+}
 .point {
     display: flex;
     align-items: center;
@@ -45,7 +66,7 @@ body {
 .point-center {
     display: flex;
     justify-content: center;
-} 
+}
 
 /* #refresh {
     font-size: 48px;color: rgb(192, 192, 192);
@@ -62,6 +83,9 @@ body {
     margin: 40px 5px 40px 20px;
 }
 
+#all_plots{
+  padding:40px;
+}
 .main {
     margin: 40px 0px;
     background: white;
@@ -108,7 +132,7 @@ body {
     color: red;
     transition-duration: 0.5s;
 }
- #close-sql {
+#close-sql {
     position: absolute;
     right: -9px;
     top: 50%;

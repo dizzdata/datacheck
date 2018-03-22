@@ -5,10 +5,12 @@ from django.shortcuts import render,redirect
 from bigquery import get_client
 from datacheck.settings import BASE_DIR
 import pandas as pd
+import json
 from bs4 import BeautifulSoup
 import datetime
 
 client = None
+
 
 def html_to_list(table_html):
     """
@@ -39,8 +41,10 @@ def html_to_list(table_html):
         data_row.append(date)
     return data_rows
 
+
 def takeSecond(elem):
     return elem[1]
+
 
 def root(request):
     global client
@@ -49,7 +53,7 @@ def root(request):
         query_string=request.POST.get('query', 'empty')
         print(query_string)
         print('in post  ', client)
-        results=compute_query(query_string)
+        results = compute_query(query_string)
         data_rows = html_to_list(results)
         all_results = []
         table_x = []
@@ -60,17 +64,15 @@ def root(request):
             title = data_rows[0][i]
             for data_row in data_rows[1:]:
                 table_x.append((str(data_row[len(data_row)-1])))
-                table_y.append(int(data_row[0]))
+                table_y.append(float(data_row[i]))
                 if i == 0:
                     time.append(datetime.datetime.strptime(((str(data_row[len(data_row)-1]))), '%Y-%m-%d'))
             all_results.append([title,table_x,table_y])
-        print(all_results,"adasd")
         temp = []
         for i in range(0,len(data_rows[0])-1):
             all_results[i][1],temp = (list(t) for t in zip(*sorted(zip(all_results[i][1],time),key=takeSecond)))
             all_results[i][2],temp = (list(t) for t in zip(*sorted(zip(all_results[i][2],time),key=takeSecond)))
         return render(request,'index.html',{'results': all_results})
-
     else:
         print('in get  ', client)
         return render(request, 'index.html')
